@@ -1,26 +1,25 @@
 <?php
 /*
 Plugin Name: wp-node-wordpress
-Plugin URI: http://localhost:3000.
+Plugin URI: http://www.arnaldocapo.com/
 Description: Provides signal communications between your Node.JS environment and WordPress
 Version: 1
 Author: Arnaldo Capo
 Author URI: http://www.arnaldocapo.com/
 */
 
-
-
 add_action( 'save_post', function( $post_id ) {
 
-  // // If this is just a revision, don't send the email.
-  // if ( wp_is_post_revision( $post_id ) )
-  //  return;
+  // Let's ignore only if this is a revision
+  if ( wp_is_post_revision( $post_id ) )
+   return;
 
-  $args = array();
-  $result = wp_remote_post( 'http://localhost:3000/wp-node-cache/' . $post_id, $args );
+  $args = array(
+    'body'  => array('secret' => WP_NODE_SECRET) 
+  );
+  $result = wp_remote_post( WP_NODE_CLEAR_CACHE_ENDPOINT . $post_id, $args );
 
 });
-
 
 
 ?>
