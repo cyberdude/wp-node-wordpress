@@ -19,7 +19,9 @@ add_action( 'save_post', function( $post_id ) {
   );
   $result = wp_remote_post( WP_NODE_CLEAR_CACHE_ENDPOINT . $post_id, $args );
 
-});
+  if ( is_wp_error($result) )
+    error_log( $result->get_error_message() ); 
 
+});
 
 ?>
