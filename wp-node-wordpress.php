@@ -15,12 +15,15 @@ add_action( 'save_post', function( $post_id ) {
    return;
 
   $args = array(
-    'body'  => array('secret' => WP_NODE_SECRET) 
+    'body'  => array(
+      'secret' => WP_NODE_SECRET,
+      'post_id' => $post_id
+    ),
   );
-  $result = wp_remote_post( WP_NODE_CLEAR_CACHE_ENDPOINT . $post_id, $args );
+  $result = wp_remote_post( WP_NODE_CLEAR_CACHE_ENDPOINT, $args );
 
   if ( is_wp_error($result) )
-    error_log( $result->get_error_message() ); 
+    error_log( $result->get_error_message() );
 
 });
 
